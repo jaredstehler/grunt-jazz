@@ -10,6 +10,7 @@
     "keywords": [
         "jazz, jasmine"
     ],
+    "main": "grunt.js",
     "dependencies": {
     },
     "devDependencies": {
