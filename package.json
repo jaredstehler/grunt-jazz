@@ -1,6 +1,6 @@
 {
     "name": "grunt-jazz",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "author": "Ben Livermore <benjamin.livermore@cengage.com>",
     "description": "Set up convenient commandline switches for grunt-jasmine",
     "repository": {
