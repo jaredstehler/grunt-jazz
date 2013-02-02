@@ -6,7 +6,11 @@ module.exports = function(grunt) {
     grunt.registerTask('jazz-server', 'command line config for jasmine-server', function() {
         jazz('jasmine-server', Array.prototype.slice.call(arguments, 0));
     });
-    
+
+    grunt.registerTask('jazz-s', 'command line config for jasmine-server', function() {
+        jazz('jasmine-server', Array.prototype.slice.call(arguments, 0));
+    });
+
     function getConfig(jazzConfigObj, option) {
         if (typeof jazzConfigObj === "string") {
             jasmineConfigName = "jasmine." + jazzConfigObj;
