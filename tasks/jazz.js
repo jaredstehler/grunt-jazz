@@ -11,12 +11,12 @@ module.exports = function(grunt) {
         jazz('jasmine-server', Array.prototype.slice.call(arguments, 0));
     });
 
-    function getConfig(jazzConfigObj, option) {
+    function getConfig(suite, jazzConfigObj, option) {
         if (typeof jazzConfigObj === "string") {
-            jasmineConfigName = "jasmine." + jazzConfigObj;
+            jasmineConfigName = ["jasmine", suite, jazzConfigObj].join('.');
             configVal = grunt.option(option) || grunt.config(jasmineConfigName);
         } else if (!jazzConfigObj.length) { //if object{
-            jasmineConfigName = "jasmine." + jazzConfigObj.name;
+            jasmineConfigName = ["jasmine", suite, jazzConfigObj.name].join('.');
             if (grunt.option(option) || option === "defaults") {
                 configVal = jazzConfigObj.value || grunt.option(option);
             } else {
@@ -29,9 +29,9 @@ module.exports = function(grunt) {
         };
     }
 
-    function setJasmineConfig(jazzConfigOption, option) {
+    function setJasmineConfig(suite, jazzConfigOption, option) {
         if (typeof jazzConfigOption === "string" || jazzConfigOption.length === undefined) {
-            convertedConfigNameVal = getConfig(jazzConfigOption, option);
+            convertedConfigNameVal = getConfig(suite, jazzConfigOption, option);
             grunt.config(convertedConfigNameVal.name, convertedConfigNameVal.value);
         } else { //if array
             for (var i = 0; i < jazzConfigOption.length; i++) {
@@ -43,18 +43,19 @@ module.exports = function(grunt) {
 
     function jazz(task, specs) {
         var jazzConfig = grunt.config("jazz"),
+            suite = jazzConfig['suite'],
             convertedConfigNameVal;
 
         if (jazzConfig["defaults"]) {
-            setJasmineConfig(jazzConfig["defaults"], "defaults");
+            setJasmineConfig(suite, jazzConfig["defaults"], "defaults");
         }
 
         for (var option in jazzConfig) {
-            setJasmineConfig(jazzConfig[option], option);
+            setJasmineConfig(suite, jazzConfig[option], option);
         }
 
         if (specs.length) {
-            grunt.config("jasmine.specs", specs);
+            grunt.config(["jasmine", suite, "options", "specs"].join('.'), specs);
         }
 
         grunt.task.run(task);
